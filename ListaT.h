@@ -1,0 +1,47 @@
+#ifndef LISTAT_H_INCLUDED
+#define LISTAT_H_INCLUDED
+
+typedef struct termo{
+    int exp;
+    float coef;
+} Termo;
+
+typedef struct listaT ListaT;
+
+typedef struct noT NoT;
+
+ListaT *criarT();
+
+void limparT(ListaT *l);
+
+int listaVaziaT(ListaT *l);
+
+int inserirNovo(ListaT *l, Termo it);
+
+int inserirIncrementar(ListaT *l, Termo it);
+
+int somarValor(ListaT *l, Termo it);
+
+int substituir(ListaT *l, Termo it);
+
+void mostrarT(ListaT *l);
+
+int removerInicioT(ListaT *l);
+
+int removerFimT(ListaT *l);
+
+int removerExp(ListaT *l, int pos);
+
+int buscarCoef(ListaT *l, int coef, int *ret);
+
+int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret);
+
+int calcPx(ListaT *l, float x, float *ret);
+
+int reinicializar(ListaT *l);
+
+float pot(int exp, float base);
+
+float mod(float x);
+
+#endif // LISTAT_H_INCLUDED

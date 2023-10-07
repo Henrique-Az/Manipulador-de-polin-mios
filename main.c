@@ -6,7 +6,6 @@
 
 int main(){
     ListaP *lista=criar();
-    ListaT *aux;
     Termo it={0, 0};
     char nome[30];
     printf("Insira o nome do polinomio: ");
@@ -19,8 +18,7 @@ int main(){
         if(it.exp>=0){
             printf("Insira o coeficiente do polinomio: ");
             scanf("%f", &it.coef);
-            buscarLista(lista, 0, &aux);
-            inserirNovo(aux, it);
+            inserirNovo(buscarLista(lista, 0), it);
         }
     }
     mostrar(lista);

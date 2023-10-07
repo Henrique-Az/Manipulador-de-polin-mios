@@ -29,6 +29,6 @@ int buscarPosicao(ListaP *l, char *str);
 
 int somarPol(ListaP *l, char *str1, char *str2, char *res);
 
-int buscarLista(ListaP *l, int pos, ListaT **ret);
+ListaT *buscarLista(ListaP *l, int pos);
 
 #endif // LISTAP_H_INCLUDED

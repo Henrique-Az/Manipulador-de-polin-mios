@@ -33,6 +33,11 @@ int inserirNovo(ListaT *l, Termo it){
     NoT *no=(NoT *)malloc(sizeof(NoT));
     no->x.coef=it.coef;
     no->x.exp=it.exp;
+    if(listaVaziaT(l)==0){
+        no->prox=NULL;
+        l->inicio=no;
+        return 0;
+    }
     NoT *aux=l->inicio;
     if(it.exp>aux->x.exp){
         l->inicio=no;

@@ -8,10 +8,6 @@ typedef struct listaP{
     NoP *inicio;
 }ListaP;
 
-typedef struct listaT {
-    NoT *inicio;
-}ListaT;
-
 typedef struct noP{
     char nome[30];
     NoP *prox;
@@ -132,26 +128,24 @@ int somarPol(ListaP *l, char *str1, char *str2, char *nome){
     if(listaVazia(l)==0) return 2;
     int a=buscarPosicao(l, str1), b=buscarPosicao(l, str2);
     if(a<0||b<0) return 3;
-    ListaT *polr, *pol1, *pol2;
-    buscarLista(l, a, &pol1);
-    buscarLista(l, b, &pol2);
-    somarPolT(pol1, pol2, polr);
+    ListaT *polr;
+    somarPolT(buscarLista(l, a), buscarLista(l, b), polr);
     inserir(l, nome);
     l->inicio->ListaTermos=polr;
     return 0;   
 }
 
-int buscarLista(ListaP *l, int pos, ListaT **ret){
+ListaT *buscarLista(ListaP *l, int pos){
     if(l==NULL){
-        return 1;
+        return NULL;
     }
     if(listaVazia(l)==0){
-        return 2;
+        return NULL;
     }
     NoP *no=l->inicio;
     while(no->prox!=NULL&&pos>0){
         no=no->prox;
+        pos--;
     }
-    *ret=no->ListaTermos;
-    return 0;
+    return no->ListaTermos;
 }

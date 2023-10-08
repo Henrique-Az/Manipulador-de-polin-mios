@@ -13,13 +13,26 @@ typedef struct noT {
 
 ListaT *criarT(){
     ListaT *l = (ListaT *)malloc(sizeof(ListaT));
-    l->inicio=NULL;
+    NoT *no=(NoT *)malloc(sizeof(NoT));
+    no->prox=NULL;
+    no->x.coef=0;
+    no->x.exp=0;
+    l->inicio=no;
     return l;
 }
 
 void limparT(ListaT *l){
     while(listaVaziaT(l)==1) removerInicioT(l);
     l=NULL;
+}
+
+int reinicializar(ListaT *l){
+    //limpa o polinomio e o cria novamente, zerado
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
+    limparT(l);
+    l = criarT();
+    return 0;
 }
 
 int listaVaziaT(ListaT *l){
@@ -33,11 +46,6 @@ int inserirNovo(ListaT *l, Termo it){
     NoT *no=(NoT *)malloc(sizeof(NoT));
     no->x.coef=it.coef;
     no->x.exp=it.exp;
-    if(listaVaziaT(l)==0){
-        no->prox=NULL;
-        l->inicio=no;
-        return 0;
-    }
     NoT *aux=l->inicio;
     if(it.exp>aux->x.exp){
         l->inicio=no;
@@ -207,17 +215,6 @@ int calcPx(ListaT *l, float x, float *ret){
         *ret+=no->x.coef*pot(no->x.exp, x);
         no=no->prox;
     }
-    return 0;
-}
-
-int reinicializar(ListaT *l){
-    //limpa o polinomio e o cria novamente, zerado
-    if(l==NULL) return 2;
-    if(listaVaziaT(l)==0) return 1;
-    limparT(l);
-    l = criarT();
-    l->inicio->x.coef = 0;
-    l->inicio->x.exp = 0;
     return 0;
 }
 

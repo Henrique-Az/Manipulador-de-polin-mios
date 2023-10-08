@@ -12,7 +12,10 @@ typedef struct noT NoT;
 
 ListaT *criarT();
 
+
 void limparT(ListaT *l);
+
+int reinicializar(ListaT *l);
 
 int listaVaziaT(ListaT *l);
 
@@ -37,8 +40,6 @@ int buscarCoef(ListaT *l, int coef, int *ret);
 int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret);
 
 int calcPx(ListaT *l, float x, float *ret);
-
-int reinicializar(ListaT *l);
 
 float pot(int exp, float base);
 

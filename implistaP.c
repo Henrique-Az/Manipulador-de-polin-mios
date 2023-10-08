@@ -45,11 +45,9 @@ int listaVazia(ListaP *l){
 
 int inserir(ListaP *l, char *str){
     if (l == NULL) return 2;
-    Termo it={0, 0};
     NoP *no = (NoP*)malloc(sizeof(NoP));
     strcpy(no->nome,str);
     no->ListaTermos=criarT();
-    inserirNovo(no->ListaTermos, it);
     no->prox = l->inicio;
     l->inicio = no;
     return 0;

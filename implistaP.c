@@ -73,6 +73,7 @@ int removerInicio(ListaP *l){
     if (listaVazia(l) == 0) return 1;
     NoP *no = l->inicio;
     l->inicio = no->prox;
+    limparT(no->ListaTermos);
     free(no);
     return 0;
 }
@@ -87,6 +88,7 @@ int removerFim(ListaP *l){
     }
     if(aux==NULL) l->inicio = NULL;
     else aux->prox = NULL;
+    limparT(no->ListaTermos);
     free(no);
     return 0;
 }
@@ -101,10 +103,12 @@ int removerPosicao(ListaP *l, int pos){
         pos--;
     }
     if(aux==NULL){
+        limparT(no->ListaTermos);
         free(no);
         l->inicio = NULL;
     }else{
         aux->prox = no->prox;
+        limparT(no->ListaTermos);
         free(no);
     }
     return 0;

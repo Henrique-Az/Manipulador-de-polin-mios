@@ -165,6 +165,17 @@ int removerExp(ListaT *l, int exp){
     return 3;
 }
 
+int contemExp(ListaT *l, int exp){
+    if(l==NULL) return 2;
+    if(l->inicio==NULL) return 1;
+    NoT *n=l->inicio;
+    while(n->x.exp!=exp){
+        n=n->prox;
+        if(n==NULL) return 3;
+    }
+    return 0;
+}
+
 int buscarCoef(ListaT *l, int exp, int *ret){
     if(l==NULL) return 1;
     if(listaVaziaT(l)==0) return 2;

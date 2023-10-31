@@ -35,6 +35,8 @@ int removerFimT(ListaT *l);
 
 int removerExp(ListaT *l, int pos);
 
+int contemExp(ListaT *l, int exp);
+
 int buscarCoef(ListaT *l, int coef, int *ret);
 
 int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret);

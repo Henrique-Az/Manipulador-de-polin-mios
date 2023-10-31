@@ -87,6 +87,7 @@ int somarValor(ListaT *l, Termo it){
             no->x.coef+=it.coef;
             return 0;
         }
+        no=no->prox;
     }
     return 1;
 }
@@ -100,6 +101,7 @@ int substituir(ListaT *l, Termo it){
             no->x.coef=it.coef;
             return 0;
         }
+        no=no->prox;
     }
     return 1;
 }

@@ -43,10 +43,17 @@ int listaVaziaT(ListaT *l){
 
 int inserirNovo(ListaT *l, Termo it){
     if(l==NULL) return 2;
+    NoT *aux=l->inicio;
+    if(it.exp==0){
+        while(aux->prox!=NULL){
+            aux=aux->prox;
+        }
+        aux->x.coef=it.coef;
+        return 0;
+    }
     NoT *no=(NoT *)malloc(sizeof(NoT));
     no->x.coef=it.coef;
     no->x.exp=it.exp;
-    NoT *aux=l->inicio;
     if(it.exp>aux->x.exp){
         l->inicio=no;
         no->prox=aux;
@@ -65,10 +72,12 @@ int inserirIncrementar(ListaT *l, Termo it){
     if(listaVaziaT(l)==0) return 2;
     NoT *no=l->inicio;
     while(no->x.exp>=it.exp){
+        if(no->x.exp==it.exp||no->prox==NULL){ //nao escrever o no->x.exp++ antes dessa comparacao eh importante para nao precisarmos fazer -1 no valor antes de comparar
+            no->x.exp++;
+            break;
+        }
         no->x.exp++;
-        if(no->prox!=NULL)
-            no=no->prox;
-        else break;
+        no=no->prox;
     }
     NoT *aux=(NoT *)malloc(sizeof(NoT));
     aux->prox=no->prox;
@@ -175,6 +184,7 @@ int contemExp(ListaT *l, int exp){
         n=n->prox;
         if(n==NULL) return 3;
     }
+    if(n->x.coef==0) return 3;
     return 0;
 }
 

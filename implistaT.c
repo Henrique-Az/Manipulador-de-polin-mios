@@ -23,7 +23,6 @@ ListaT *criarT(){
 
 void limparT(ListaT *l){
     while(listaVaziaT(l)==1) removerInicioT(l);
-    l=NULL;
 }
 
 int reinicializar(ListaT *l){
@@ -68,8 +67,8 @@ int inserirNovo(ListaT *l, Termo it){
 }
 
 int inserirIncrementar(ListaT *l, Termo it){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     NoT *no=l->inicio;
     while(no->x.exp>=it.exp){
         if(no->x.exp==it.exp||no->prox==NULL){ //nao escrever o no->x.exp++ antes dessa comparacao eh importante para nao precisarmos fazer -1 no valor antes de comparar
@@ -88,8 +87,8 @@ int inserirIncrementar(ListaT *l, Termo it){
 }
 
 int somarValor(ListaT *l, Termo it){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     NoT *no=l->inicio;
     while(no!=NULL){
         if(no->x.exp==it.exp){
@@ -102,8 +101,8 @@ int somarValor(ListaT *l, Termo it){
 }
 
 int substituir(ListaT *l, Termo it){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     NoT *no=l->inicio;
     while(no!=NULL){
         if(no->x.exp==it.exp){
@@ -133,8 +132,8 @@ void mostrarT(ListaT *l){
 }
 
 int removerInicioT(ListaT *l){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     NoT *no = l->inicio, *aux = NULL;
     while(no->prox!=NULL){
         aux = no;
@@ -147,8 +146,8 @@ int removerInicioT(ListaT *l){
 }
 
 int removerFimT(ListaT *l){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     NoT *no = l->inicio;
     l->inicio = no->prox;
     free(no);
@@ -189,8 +188,8 @@ int contemExp(ListaT *l, int exp){
 }
 
 int buscarCoef(ListaT *l, int exp, int *ret){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     for(NoT *no=l->inicio; no!=NULL; no=no->prox){
         if(no->x.exp==exp){
             *ret=no->x.coef;
@@ -230,8 +229,8 @@ int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
 }
 
 int calcPx(ListaT *l, float x, float *ret){
-    if(l==NULL) return 1;
-    if(listaVaziaT(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVaziaT(l)==0) return 1;
     *ret=0;
     NoT *no=l->inicio;
     while(no!=NULL){

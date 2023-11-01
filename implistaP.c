@@ -22,8 +22,6 @@ ListaP *criar(){
 
 void limpar(ListaP *l){
     while (listaVazia(l)==1) removerInicio(l);
-    free(l);
-    l = NULL;
 }
 
 int tamanho(ListaP *l){
@@ -126,8 +124,8 @@ int buscarPosicao(ListaP *l, char *str){
 }
 
 int somarPol(ListaP *l, char *str1, char *str2, char *nome){
-    if(l==NULL) return 1;
-    if(listaVazia(l)==0) return 2;
+    if(l==NULL) return 2;
+    if(listaVazia(l)==0) return 1;
     int a=buscarPosicao(l, str1), b=buscarPosicao(l, str2);
     if(a<0||b<0) return 3;
     ListaT *polr;

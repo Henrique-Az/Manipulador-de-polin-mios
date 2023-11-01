@@ -30,18 +30,19 @@ int reinicializar(ListaT *l){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0) return 1;
     limparT(l);
-    l = criarT();
     return 0;
 }
 
 int listaVaziaT(ListaT *l){
     if(l==NULL) return 2;
     if(l->inicio==NULL) return 0;
+    if(l->inicio->x.exp==0&&l->inicio->x.coef==0) return 0;
     else return 1;
 }
 
 int inserirNovo(ListaT *l, Termo it){
     if(l==NULL) return 2;
+    if(it.coef==0) return 3;
     NoT *aux=l->inicio;
     if(it.exp==0){
         while(aux->prox!=NULL){
@@ -93,6 +94,7 @@ int somarValor(ListaT *l, Termo it){
     while(no!=NULL){
         if(no->x.exp==it.exp){
             no->x.coef+=it.coef;
+            if(no->x.coef==0) return removerExp(l, no->x.exp);
             return 0;
         }
         no=no->prox;
@@ -103,6 +105,7 @@ int somarValor(ListaT *l, Termo it){
 int substituir(ListaT *l, Termo it){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0) return 1;
+    if(it.coef==0) return removerExp(l, it.exp);
     NoT *no=l->inicio;
     while(no!=NULL){
         if(no->x.exp==it.exp){
@@ -200,9 +203,8 @@ int buscarCoef(ListaT *l, int exp, int *ret){
 }
 
 int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
-    if(l1 == NULL || l2 == NULL) return 2;
+    if(l1 == NULL || l2 == NULL || ret == NULL) return 2;
     if(listaVaziaT(l1) == 0 || listaVaziaT(l2) == 0) return 1;
-    ret = criarT();
     NoT *pol1 = l1->inicio, *pol2 = l2->inicio;
     
     while(pol1 != NULL && pol2 != NULL){
@@ -219,7 +221,7 @@ int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
             Termo temp;
             temp.exp = pol1->x.exp;
             temp.coef = pol1->x.coef + pol2->x.coef;
-            inserirNovo(ret, temp);
+            if(temp.coef != 0) inserirNovo(ret, temp);
             pol1 = pol1->prox;
             pol2 = pol2->prox;
         }

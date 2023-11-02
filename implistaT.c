@@ -137,13 +137,12 @@ void mostrarT(ListaT *l){
 int removerInicioT(ListaT *l){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0) return 1;
-    NoT *no = l->inicio, *aux = NULL;
-    while(no->prox!=NULL){
-        aux = no;
-        no = no->prox;
+    NoT *no = l->inicio;
+    if(no->x.exp==0){
+        no->x.coef=0;
+        return 0;
     }
-    if(aux==NULL) l->inicio = NULL;
-    else aux->prox = NULL;
+    l->inicio = no->prox;
     free(no);
     return 0;
 }
@@ -152,14 +151,24 @@ int removerFimT(ListaT *l){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0) return 1;
     NoT *no = l->inicio;
-    l->inicio = no->prox;
-    free(no);
+    while(no->prox!=NULL){
+        no = no->prox;
+    }
+    no->x.coef=0;
     return 0;
 }
 
 int removerExp(ListaT *l, int exp){
     if (l == NULL) return 2;
     if (listaVaziaT(l) == 0) return 1;
+    if(exp==0){
+        NoT *no = l->inicio;
+        while(no->prox!=NULL){
+            no=no->prox;
+        }
+        no->x.coef=0;
+        return 0;
+    }
     NoT *aux = NULL, *no = l->inicio;
     while(no->x.exp>exp && no->prox!=NULL){
         aux = no;
@@ -167,8 +176,8 @@ int removerExp(ListaT *l, int exp){
     }
     if(no->x.exp==exp){
         if(aux==NULL){
+            l->inicio=no->prox;
             free(no);
-            l->inicio = NULL;
         }else{
             aux->prox = no->prox;
             free(no);
@@ -210,14 +219,14 @@ int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
     while(pol1 != NULL && pol2 != NULL){
         /*adiciona no novo polinomio o maior expoente dos dois até que
         estejam no mesmo expoente*/
-        if(pol2->x.exp > pol1->x.exp){ 
+        if(pol2->x.exp > pol1->x.exp){
             inserirNovo(ret, pol2->x);
             pol2 = pol2->prox;
         }else if(pol2->x.exp < pol1->x.exp){
             inserirNovo(ret, pol1->x);
             pol1 = pol1->prox;
         }else{
-            /*adiona a soma dos expoentes coincidentes em ambos os polinomios*/
+            /*adiciona a soma dos expoentes coincidentes em ambos os polinomios*/
             Termo temp;
             temp.exp = pol1->x.exp;
             temp.coef = pol1->x.coef + pol2->x.coef;
@@ -226,7 +235,6 @@ int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
             pol2 = pol2->prox;
         }
     }
-    
     return 0;
 }
 

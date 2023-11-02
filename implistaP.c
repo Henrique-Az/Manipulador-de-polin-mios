@@ -43,6 +43,9 @@ int listaVazia(ListaP *l){
 
 int inserir(ListaP *l, char *str){
     if (l == NULL) return 2;
+    if(buscarListaNome(l,str)!=NULL){
+        return 1;
+    }
     NoP *no = (NoP*)malloc(sizeof(NoP));
     strcpy(no->nome,str);
     no->ListaTermos=criarT();
@@ -113,26 +116,28 @@ int removerPosicao(ListaP *l, int pos){
 }
 
 int buscarPosicao(ListaP *l, char *str){
-    if (l == NULL) return -1;
+    if(l == NULL) return -1;
     NoP *no = l->inicio;
     int p = 0;
-    while (strcmp(str,no->nome)!=0){
+    while(strcmp(str,no->nome)!=0){
         p++;
         no = no->prox;
+        if(no==NULL){
+            p=-2;
+            break;
+        }
     }
     return p;
 }
 
 int somarPol(ListaP *l, char *str1, char *str2, char *nome){
     if(l==NULL) return 2;
+    ListaT *a=buscarListaNome(l, str1), *b=buscarListaNome(l, str2);
+    if(a==NULL||b==NULL) return 3;
     if(listaVazia(l)==0) return 1;
-    int a=buscarPosicao(l, str1), b=buscarPosicao(l, str2);
-    if(a<0||b<0) return 3;
-    ListaT *polr;
-    somarPolT(buscarLista(l, a), buscarLista(l, b), polr);
-    inserir(l, nome);
-    l->inicio->ListaTermos=polr;
-    return 0;   
+    if(inserir(l, nome)==1) return 4; 
+    somarPolT(a, b, l->inicio->ListaTermos);
+    return 0;
 }
 
 ListaT *buscarLista(ListaP *l, int pos){
@@ -148,4 +153,15 @@ ListaT *buscarLista(ListaP *l, int pos){
         pos--;
     }
     return no->ListaTermos;
+}
+
+ListaT *buscarListaNome(ListaP *l, char *nome){
+    if(l==NULL) return NULL;
+    if(listaVazia(l)==0) return NULL;
+    NoP *n=l->inicio;
+    while(strcmp(nome, n->nome)!=0){
+        if(n->prox==NULL) return NULL;
+        n=n->prox;
+    }
+    return n->ListaTermos;
 }

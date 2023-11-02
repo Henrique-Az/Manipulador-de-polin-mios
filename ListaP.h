@@ -31,4 +31,6 @@ int somarPol(ListaP *l, char *str1, char *str2, char *res);
 
 ListaT *buscarLista(ListaP *l, int pos);
 
+ListaT *buscarListaNome(ListaP *l, char *nome);
+
 #endif // LISTAP_H_INCLUDED

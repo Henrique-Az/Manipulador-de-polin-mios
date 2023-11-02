@@ -12,7 +12,6 @@ typedef struct noT NoT;
 
 ListaT *criarT();
 
-
 void limparT(ListaT *l);
 
 int reinicializar(ListaT *l);

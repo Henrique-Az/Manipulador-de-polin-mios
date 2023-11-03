@@ -13,8 +13,8 @@ int main(){
     ListaP *lista=criar();
     int op=0;
     char nome[31];
-    while(op!=9){
-        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Inserir um termo em um polinomio\n3- Mostrar\n4- Eliminar um termo\n5- Reinicializar um polinomio\n6- Salvar um polinomio\n7- Somar dois polinomios\n8- Calcular o valor do polinomio para um x\n9- Sair\n\nOpcao: ");
+    while(op!=10){
+        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Sair\n\nOpcao: ");
         setbuf(stdin, NULL);
         scanf("%d", &op);
         printf("\n");
@@ -31,10 +31,20 @@ int main(){
                 printf("\n");
                 break;
             case 2:
+                printf("Insira o nome do polinomio que deve ser removido: ");
+                setbuf(stdin, NULL);
+                fgets(nome, 31, stdin);
+                nome[strlen(nome)-1]='\0';
+                if(removerPosicao(lista, buscarPosicao(lista, nome))==3){
+                    printf("\nO polinomio nao foi encontrado\n");
+                }
+                printf("\n");
+                break;
+            case 3:
                 //inserir termo
                 inserirTermo(lista);
                 break;
-            case 3:
+            case 4:
                 //mostrar
                 printf("Voce deseja:\n1- Imprimir todos os polinomios salvos\n2- Imprimir apenas um polinomio\n\nOpcao: ");
                 scanf("%d", &op);
@@ -52,7 +62,7 @@ int main(){
                     printf("Nao foi inserido uma opcao valida\n\n");
                 }
                 break;
-            case 4:
+            case 5:
                 //Eliminar potencia
                 printf("Insira o nome do polinomio em que se deseja remover uma potencia: ");
                 setbuf(stdin, NULL);
@@ -71,7 +81,7 @@ int main(){
                 printf("\n");
                 op=1;
                 break;
-            case 5:
+            case 6:
                 //Reinicializar
                     printf("Insira o nome do polinomio que deseja reinicializar: ");
                     setbuf(stdin, NULL);
@@ -81,19 +91,19 @@ int main(){
                         printf("\nNao foi encontrado esse polinomio\n");
                     printf("\n");
                 break;
-            case 6:
+            case 7:
                 //Salvar
                 printf("Salvo com sucesso!\n");
                 break;
-            case 7:
+            case 8:
                 //Somar dois polinomios
                 somarPolinomios(lista);
                 break;
-            case 8:
+            case 9:
                 //Calcular P(x)
                 Px(lista);
                 break;
-            case 9:
+            case 10:
                 //Sair
                 printf("Saindo...");
                 break;
@@ -134,6 +144,7 @@ void inserirTermo(ListaP *lista){
                         printf("Insira o coeficiente que deve ser substituido: ");
                         scanf("%f", &it.coef);
                         substituir(p, it);
+                        
                         break;
                     case 3:
                         printf("Insira o coeficiente que deve ser inserido: ");

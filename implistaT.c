@@ -23,6 +23,8 @@ ListaT *criarT(){
 
 void limparT(ListaT *l){
     while(listaVaziaT(l)==1) removerInicioT(l);
+    free(l->inicio);
+    l->inicio=NULL;
 }
 
 int reinicializar(ListaT *l){
@@ -30,6 +32,11 @@ int reinicializar(ListaT *l){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0) return 1;
     limparT(l);
+    NoT *n=(NoT *)malloc(sizeof(NoT));
+    n->prox=NULL;
+    n->x.coef=0;
+    n->x.exp=0;
+    l->inicio=n;
     return 0;
 }
 

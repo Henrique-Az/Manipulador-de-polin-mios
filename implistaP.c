@@ -96,6 +96,7 @@ int removerFim(ListaP *l){
 int removerPosicao(ListaP *l, int pos){
     if (l == NULL) return 2;
     if (listaVazia(l) == 0) return 1;
+    if(pos<0) return 3;
     NoP *aux = NULL, *no = l->inicio;
     while(no->prox!=NULL && (pos>=0)){
         aux = no;

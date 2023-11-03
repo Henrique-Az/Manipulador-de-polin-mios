@@ -122,13 +122,26 @@ void mostrarT(ListaT *l){
         NoT *No = l->inicio;
         printf("P(x) = ");
 	    if(No->x.coef < 0) printf("- ");
-        while(No != NULL){
-            printf("%.2fx^%d", mod(No->x.coef), No->x.exp);
-            if(No->prox != NULL){
-                if(No->prox->x.coef < 0) printf(" - ");
-                else  printf(" + ");
+        if(No->x.exp==0){
+            printf("%.2f", No->x.coef);
+        } else{
+            while(No->x.exp > 1){
+                printf("%.2fx^%d", mod(No->x.coef), No->x.exp);
+                No = No->prox;
+                if(No->x.coef < 0) printf(" - ");
+                else if(No->x.coef!=0) printf(" + "); //Apenas util para o caso onde exp=0, a lista não guarda nenhum outro coeficiente 0 sem ser esse
             }
-            No = No->prox;
+            if(No->x.exp == 1){
+                printf("%.2fx", mod(No->x.coef));
+                No = No->prox;
+                if(No->x.coef!=0){
+                    if(No->x.coef < 0) printf(" - ");
+                    else printf(" + ");
+                }
+            }
+            if(No->x.coef!=0){
+                printf("%.2f", mod(No->x.coef));
+            }
         }
         printf("\n");
     }
@@ -201,19 +214,38 @@ int contemExp(ListaT *l, int exp){
 
 int buscarCoef(ListaT *l, int exp, int *ret){
     if(l==NULL) return 2;
-    if(listaVaziaT(l)==0) return 1;
+    if(listaVaziaT(l)==0){
+        *ret=0;
+        return 1;
+    }
     for(NoT *no=l->inicio; no!=NULL; no=no->prox){
         if(no->x.exp==exp){
             *ret=no->x.coef;
             return 0;
         }
     }
+    *ret=0;
     return 3;
 }
 
 int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
     if(l1 == NULL || l2 == NULL || ret == NULL) return 2;
-    if(listaVaziaT(l1) == 0 || listaVaziaT(l2) == 0) return 1;
+    if(listaVaziaT(l1) == 0){
+        NoT *p=l2->inicio;
+        while(p!=NULL){
+            inserirNovo(ret, p->x);
+            p=p->prox;
+        }
+        return 1;
+    }
+    if(listaVaziaT(l2) == 0){
+        NoT *p=l1->inicio;
+        while(p!=NULL){
+            inserirNovo(ret, p->x);
+            p=p->prox;
+        }
+        return 1;
+    }
     NoT *pol1 = l1->inicio, *pol2 = l2->inicio;
     
     while(pol1 != NULL && pol2 != NULL){

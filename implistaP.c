@@ -65,7 +65,6 @@ void mostrar(ListaP *l){
             no = no->prox;
             cont++;
         }
-        printf("\n");
     }
 }
 

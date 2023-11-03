@@ -279,8 +279,10 @@ int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret){
 
 int calcPx(ListaT *l, float x, float *ret){
     if(l==NULL) return 2;
-    if(listaVaziaT(l)==0) return 1;
-    *ret=0;
+    if(listaVaziaT(l)==0){
+        *ret=0;
+        return 1;  
+    }
     NoT *no=l->inicio;
     while(no!=NULL){
         *ret+=no->x.coef*pot(no->x.exp, x);

@@ -13,8 +13,8 @@ int main(){
     ListaP *lista=criar();
     int op=0;
     char nome[31];
-    while(op!=10){
-        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Sair\n\nOpcao: ");
+    while(op!=11){
+        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Limpar todos os polinomios da memoria\n11- Sair\n\nOpcao: ");
         setbuf(stdin, NULL);
         scanf("%d", &op);
         printf("\n");
@@ -104,6 +104,9 @@ int main(){
                 Px(lista);
                 break;
             case 10:
+                limpar(lista);
+                break;
+            case 11:
                 //Sair
                 printf("Saindo...");
                 break;
@@ -144,7 +147,7 @@ void inserirTermo(ListaP *lista){
                         printf("Insira o coeficiente que deve ser substituido: ");
                         scanf("%f", &it.coef);
                         substituir(p, it);
-                        
+
                         break;
                     case 3:
                         printf("Insira o coeficiente que deve ser inserido: ");

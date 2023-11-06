@@ -6,6 +6,7 @@
 
 void carregar(FILE *fp, ListaP *l);
 void salvar(ListaP *l);
+void inicializar(ListaT *l);
 void inserirTermo(ListaP *l);
 void mostraPol(ListaP *l, char *nome);
 void somarPolinomios(ListaP *l);
@@ -44,6 +45,9 @@ int main(){
                 nome[strlen(nome)-1]='\0';
                 if(inserir(lista, nome)==1){
                     printf("Esse polinomio ja existe\n");
+                } else{
+                    printf("\nInsira os termos desse polinomio:\n\n");
+                    inicializar(buscarLista(lista, 0));
                 }
                 printf("\n");
                 break;
@@ -220,6 +224,47 @@ void salvar(ListaP *l){
         printf("\nNao foi digitado uma opcao valida\n");
     }
     printf("\n");
+}
+
+void inicializar(ListaT *l){
+    Termo it;
+    int opcao;
+    do{
+        printf("Insira o expoente do termo que se deseja inserir(Digite um numero negativo para sair): ");
+        scanf("%d", &it.exp);
+        if(it.exp>=0){
+            if(contemExp(l , it.exp)==0){
+                printf("\nEsse termo ja existe, voce deseja:\n1 - Somar um valor para esse termo\n2 - Substituir esse valor\n3 - Incrementar os outros expoentes\n\nOpcao: ");
+                scanf("%d", &opcao);
+                printf("\n");
+                switch(opcao){
+                    case 1:
+                        printf("Insira o valor que deve ser somado: ");
+                        scanf("%f", &it.coef);
+                        somarValor(l , it);
+                        break;
+                    case 2:
+                        printf("Insira o coeficiente que deve ser substituido: ");
+                        scanf("%f", &it.coef);
+                        substituir(l, it);
+
+                        break;
+                    case 3:
+                        printf("Insira o coeficiente que deve ser inserido: ");
+                        scanf("%f", &it.coef);
+                        inserirIncrementar(l, it);
+                        break;
+                    default:
+                        printf("Nao foi inserido uma opcao valida");
+                }
+            } else{
+                printf("Insira o coeficiente do polinomio: ");
+                scanf("%f", &it.coef);
+                inserirNovo(l, it);
+            }
+        }
+    printf("\n");
+    } while(it.exp>0);
 }
 
 void inserirTermo(ListaP *lista){

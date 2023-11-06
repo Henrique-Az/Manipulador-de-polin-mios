@@ -33,14 +33,14 @@ int main(){
     }
     while(op!=12){
         printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Limpar todos os polinomios da memoria\n11- Apagar os polinomios salvos em disco\n12- Sair\n\nOpcao: ");
-        setbuf(stdin, NULL);
+        fflush(stdin);
         scanf("%d", &op);
         printf("\n");
         switch(op){
             case 1:
                 //inicializar o polinomio
                 printf("Insira o nome do polinomio: ");
-                setbuf(stdin, NULL);
+                fflush(stdin);
                 fgets(nome, 31, stdin);
                 nome[strlen(nome)-1]='\0';
                 if(inserir(lista, nome)==1){
@@ -53,7 +53,7 @@ int main(){
                 break;
             case 2:
                 printf("Insira o nome do polinomio que deve ser removido: ");
-                setbuf(stdin, NULL);
+                fflush(stdin);
                 fgets(nome, 31, stdin);
                 nome[strlen(nome)-1]='\0';
                 if(removerPosicao(lista, buscarPosicao(lista, nome))==3){
@@ -74,7 +74,7 @@ int main(){
                     mostrar(lista);
                 }else if(op==2){
                     printf("Insira o nome do polinomio que deseja visualizar: ");
-                    setbuf(stdin, NULL);
+                    fflush(stdin);
                     fgets(nome, 31, stdin);
                     nome[strlen(nome)-1]='\0';
                     mostraPol(lista,nome);
@@ -86,7 +86,7 @@ int main(){
             case 5:
                 //Eliminar potencia
                 printf("Insira o nome do polinomio em que se deseja remover uma potencia: ");
-                setbuf(stdin, NULL);
+                fflush(stdin);
                 fgets(nome, 31, stdin);
                 nome[strlen(nome)-1]='\0';
                 printf("Insira a potencia que deve ser removida: ");
@@ -105,7 +105,7 @@ int main(){
             case 6:
                 //Reinicializar
                     printf("Insira o nome do polinomio que deseja reinicializar: ");
-                    setbuf(stdin, NULL);
+                    fflush(stdin);
                     fgets(nome, 31, stdin);
                     nome[strlen(nome)-1]='\0';
                     if(reinicializar(buscarListaNome(lista, nome))==2)
@@ -166,7 +166,7 @@ void salvar(ListaP *l){
     Termo it;
     char nome[31];
     int op;
-    printf("Voce deseja:\n1- Sobreescrever todos os polinomios salvos com os carregados\n2- Adicionar todos os polinomios criados\n3- Adicionar apenas um polinomio\n\nOpcao: ");
+    printf("Voce deseja:\n1- Sobreescrever todos os polinomios salvos\n2- Adicionar todos os polinomios criados\n3- Adicionar apenas um polinomio\n\nOpcao: ");
     scanf("%d", &op);
     if(op==1){
         if((fp=fopen("polinomios.bin", "w"))!=NULL){
@@ -204,7 +204,7 @@ void salvar(ListaP *l){
         fclose(fp);
         }
         printf("\nInsira o polinomio que deve ser inserido: ");
-        setbuf(stdin, NULL);
+        fflush(stdin);
         fgets(nome, 31, stdin);
         nome[strlen(nome)-1]='\0';
         if(buscarListaNome(aux, nome)==NULL){
@@ -264,7 +264,7 @@ void inicializar(ListaT *l){
             }
         }
     printf("\n");
-    } while(it.exp>0);
+    } while(it.exp>=0);
 }
 
 void inserirTermo(ListaP *lista){
@@ -273,7 +273,7 @@ void inserirTermo(ListaP *lista){
     Termo it;
     int opcao;
     printf("Insira o nome do polinomio em que se deseja fazer a insercao: ");
-    setbuf(stdin, NULL);
+    fflush(stdin);
     fgets(nome, 31, stdin);
     nome[strlen(nome)-1]='\0';
     p=buscarListaNome(lista, nome);
@@ -340,7 +340,7 @@ void Px(ListaP *l){
     printf("Insira o valor de x: ");
     scanf("%f", &x);
     printf("\nInsira o nome de um polinomio(Digite \"sair\" para parar de calcular): ");
-    setbuf(stdin,NULL);
+    fflush(stdin);
     fgets(nomes[0], 31, stdin);
     nomes[0][strlen(nomes[0])-1]='\0';
     while(strcmp(nomes[i], "sair")!=0){
@@ -355,7 +355,7 @@ void Px(ListaP *l){
             nomes[i]=(char *)malloc(31*sizeof(char));
         }
         printf("\nInsira o nome de um polinomio(Digite \"sair\" para parar de calcular): ");
-        setbuf(stdin,NULL);
+        fflush(stdin);
         fgets(nomes[i], 31, stdin);
         nomes[i][strlen(nomes[i])-1]='\0';
     }
@@ -403,15 +403,15 @@ void somarPolinomios(ListaP *l){
     char nome1[31], nome2[31], nome[31];
     int ret;
     printf("Insira o nome do polinomio 1: ");
-    setbuf(stdin, NULL);
+    fflush(stdin);
     fgets(nome1, 31, stdin);
     nome1[strlen(nome1)-1]='\0';
     printf("Insira o nome do polinomio 2: ");
-    setbuf(stdin, NULL);
+    fflush(stdin);
     fgets(nome2, 31, stdin);
     nome2[strlen(nome2)-1]='\0';
     printf("Insira o nome do polinomio resultante: ");
-    setbuf(stdin, NULL);
+    fflush(stdin);
     fgets(nome, 31, stdin);
     nome[strlen(nome)-1]='\0';
     ret=somarPol(l, nome1, nome2, nome);

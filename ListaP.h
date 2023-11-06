@@ -25,6 +25,8 @@ int removerFim(ListaP *l);
 
 int removerPosicao(ListaP *l, int pos);
 
+int buscarNome(ListaP *l, int pos, char *ret);
+
 int buscarPosicao(ListaP *l, char *str);
 
 int somarPol(ListaP *l, char *str1, char *str2, char *res);

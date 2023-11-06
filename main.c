@@ -4,6 +4,8 @@
 #include"ListaP.h"
 #include"ListaT.h"
 
+void carregar(FILE *fp, ListaP *l);
+void salvar(ListaP *l);
 void inserirTermo(ListaP *l);
 void mostraPol(ListaP *l, char *nome);
 void somarPolinomios(ListaP *l);
@@ -13,8 +15,23 @@ int main(){
     ListaP *lista=criar();
     int op=0;
     char nome[31];
-    while(op!=11){
-        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Limpar todos os polinomios da memoria\n11- Sair\n\nOpcao: ");
+    FILE *fp;
+    if((fp=fopen("polinomios.bin", "r"))==NULL){
+        printf("Nao foi encontrado o arquivo com polinomios salvos, criando um novo\n\n");
+        if((fp=fopen("polinomios.bin", "w"))==NULL){
+            exit(1);
+        }
+        fclose(fp);
+    } else{
+        printf("Foram encontrados polinomios salvos, deseja carrega-los no programa?(Y/N): ");
+        scanf("%c", nome);
+        if(nome[0]=='Y'||nome[0]=='y'){
+            carregar(fp, lista);
+        }
+        fclose(fp);
+    }
+    while(op!=12){
+        printf("Insira uma opcao:\n\n1- Criar um polinomio\n2- Remover um polinomio\n3- Inserir um termo em um polinomio\n4- Mostrar\n5- Eliminar um termo\n6- Reinicializar um polinomio\n7- Salvar um polinomio\n8- Somar dois polinomios\n9- Calcular o valor do polinomio para um x\n10- Limpar todos os polinomios da memoria\n11- Apagar os polinomios salvos em disco\n12- Sair\n\nOpcao: ");
         setbuf(stdin, NULL);
         scanf("%d", &op);
         printf("\n");
@@ -92,8 +109,7 @@ int main(){
                     printf("\n");
                 break;
             case 7:
-                //Salvar
-                printf("Salvo com sucesso!\n");
+                salvar(lista);
                 break;
             case 8:
                 //Somar dois polinomios
@@ -107,6 +123,10 @@ int main(){
                 limpar(lista);
                 break;
             case 11:
+                fp=fopen("polinomios.bin", "w");
+                fclose(fp);
+                break;
+            case 12:
                 //Sair
                 printf("Saindo...");
                 break;
@@ -115,6 +135,91 @@ int main(){
         }
     }
     return 0;
+}
+
+void carregar(FILE *fp, ListaP *l){
+    char nome[30];
+    Termo it;
+    ListaT *p;
+    while(1){
+        fread(nome, sizeof(char), 30, fp);
+        if(feof(fp)) break;
+        inserir(l, nome);
+        p=buscarLista(l, 0);
+        it.exp=1;
+        while(it.exp!=0){
+            fread(&it.coef, sizeof(float), 1, fp);
+            fread(&it.exp, sizeof(int), 1, fp);
+            inserirNovo(p, it);
+        }
+    }
+}
+
+void salvar(ListaP *l){
+    ListaP *aux=criar();
+    ListaT *p;
+    FILE *fp;
+    Termo it;
+    char nome[31];
+    int op;
+    printf("Voce deseja:\n1- Sobreescrever todos os polinomios salvos com os carregados\n2- Adicionar todos os polinomios criados\n3- Adicionar apenas um polinomio\n\nOpcao: ");
+    scanf("%d", &op);
+    if(op==1){
+        if((fp=fopen("polinomios.bin", "w"))!=NULL){
+            for(int j=0; buscarNome(l, j, nome)==0; j++){
+                p=buscarListaNome(l, nome);
+                fwrite(nome, sizeof(char), 30, fp);
+                for(int i=0; buscarPosicaoT(p, i, &it)==0; i++){
+                    fwrite(&it.coef, sizeof(float), 1, fp);
+                    fwrite(&it.exp, sizeof(int), 1, fp);
+                }
+            }
+            fclose(fp);
+        }
+    }else if(op==2){
+        if((fp=fopen("polinomios.bin", "r"))!=NULL){
+        carregar(fp, aux);
+        fclose(fp);
+        }
+        if((fp=fopen("polinomios.bin", "a"))!=NULL){
+            for(int j=0; buscarNome(l, j, nome)==0; j++){
+                if(buscarListaNome(aux, nome)==NULL){
+                    p=buscarListaNome(l, nome);
+                    fwrite(nome, sizeof(char), 30, fp);
+                    for(int i=0; buscarPosicaoT(p, i, &it)==0; i++){
+                        fwrite(&it.coef, sizeof(float), 1, fp);
+                        fwrite(&it.exp, sizeof(int), 1, fp);
+                    }
+                }
+            }
+            fclose(fp);
+        }
+    } else if(op==3){
+        if((fp=fopen("polinomios.bin", "r"))!=NULL){
+        carregar(fp, aux);
+        fclose(fp);
+        }
+        printf("\nInsira o polinomio que deve ser inserido: ");
+        setbuf(stdin, NULL);
+        fgets(nome, 31, stdin);
+        nome[strlen(nome)-1]='\0';
+        if(buscarListaNome(aux, nome)==NULL){
+            p=buscarListaNome(l, nome);
+            if((fp=fopen("polinomios.bin", "a"))!=NULL){
+                fwrite(nome, sizeof(char), 30, fp);
+                for(int i=0; buscarPosicaoT(p, i, &it)==0; i++){
+                    fwrite(&it.coef, sizeof(float), 1, fp);
+                    fwrite(&it.exp, sizeof(int), 1, fp);
+                }
+                fclose(fp);
+            }
+        } else{
+            printf("\nJa existe um polinomio salvo com esse nome\n");
+        }
+    } else{
+        printf("\nNao foi digitado uma opcao valida\n");
+    }
+    printf("\n");
 }
 
 void inserirTermo(ListaP *lista){

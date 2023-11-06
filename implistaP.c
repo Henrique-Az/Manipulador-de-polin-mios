@@ -115,6 +115,21 @@ int removerPosicao(ListaP *l, int pos){
     return 0;
 }
 
+int buscarNome(ListaP *l, int pos, char *ret){
+    if(l==NULL) return 1;
+    if(listaVazia(l)==0) return 2;
+    NoP *no=l->inicio;
+    while(pos>0&&no!=NULL){
+        pos--;
+        no=no->prox;
+    }
+    if(no!=NULL){
+        strcpy(ret, no->nome);
+        return 0;
+    }
+    return 3;
+}
+
 int buscarPosicao(ListaP *l, char *str){
     if(l == NULL) return -1;
     NoP *no = l->inicio;

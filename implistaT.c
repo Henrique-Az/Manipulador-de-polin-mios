@@ -219,6 +219,21 @@ int contemExp(ListaT *l, int exp){
     return 0;
 }
 
+int buscarPosicaoT(ListaT *l, int pos, Termo *ret){
+    if(l==NULL) return 1;
+    NoT *no=l->inicio;
+    while(no!=NULL&&pos>0){
+        pos--;
+        no=no->prox;
+    }
+    if(no!=NULL&&ret!=NULL){
+        ret->coef=no->x.coef;
+        ret->exp=no->x.exp;
+        return 0;
+    }
+    return 2;
+}
+
 int buscarCoef(ListaT *l, int exp, int *ret){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0){

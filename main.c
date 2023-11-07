@@ -231,6 +231,8 @@ void inicializar(ListaT *l){
     int opcao;
     do{
         printf("Insira o expoente do termo que se deseja inserir(Digite um numero negativo para sair): ");
+        it.exp=-1; //util para garantir que o usuario nao digite algo invalido que o scanf nao leia
+        fflush(stdin);
         scanf("%d", &it.exp);
         if(it.exp>=0){
             if(contemExp(l , it.exp)==0){

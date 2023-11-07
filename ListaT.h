@@ -38,7 +38,7 @@ int contemExp(ListaT *l, int exp);
 
 int buscarPosicaoT(ListaT *l, int pos, Termo *ret);
 
-int buscarCoef(ListaT *l, int coef, int *ret);
+int buscarCoef(ListaT *l, int exp, float *ret);
 
 int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret);
 

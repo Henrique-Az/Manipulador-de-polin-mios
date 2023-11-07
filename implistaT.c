@@ -234,7 +234,7 @@ int buscarPosicaoT(ListaT *l, int pos, Termo *ret){
     return 2;
 }
 
-int buscarCoef(ListaT *l, int exp, int *ret){
+int buscarCoef(ListaT *l, int exp, float *ret){
     if(l==NULL) return 2;
     if(listaVaziaT(l)==0){
         *ret=0;
